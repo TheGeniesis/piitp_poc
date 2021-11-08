@@ -31,17 +31,9 @@ The application has 5 endpoints:
 
 ## Setup
 
-### Kubernetes based version
-
-#### Installation
-
 - Run `task init`
-
-#### Run application
-
-- [Setup kubernetes environment](devops/README.md)
-- Run `task kubeconfig`
 - Run `task start`
+- [Setup kubernetes environment](devops/README.md)
 - Open `http://localhost` to check if it works
 - If you get `502 Bad Gateway`, please wait a little longer. The application needs a moment to wake up
-- To generate an example traffic use [prepared stress tests project](https://github.com/TheGeniesis/metric_blog_stress_tests)
+- To generate an example traffic use [prepared stress tests project](tests/README.md)

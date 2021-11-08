@@ -1,47 +1,20 @@
 version: 3
-vars:
-  KUBERNETES_VERSION: v1.22.2
-  KIND_VERSION: v0.11.1
+
 tasks:
   copy-basic-files:
     desc: Create basic config files based on .dist
     cmds:
       - test -f .env || cp .env.dist .env
 
-  install:kind:
-    desc: Install KIND
-    cmds:
-      - curl -Lo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/{{.KIND_VERSION}}/kind-{{OS}}-{{ARCH}}"
-      - chmod +x ./kind
-
-  install:k8s:
-    desc: Install KIND
-    cmds:
-      - curl -LO https://storage.googleapis.com/kubernetes-release/release/{{.KUBERNETES_VERSION}}/bin/{{OS}}/{{ARCH}}/kubectl
-      - chmod +x ./kubectl
-
-  kubeconfig:
-    desc: Prepare envrc file with kubeconfig path.
-    cmds:
-      - ./kind get kubeconfig --name=kind > kind_kubeconfig
-      - echo "export KUBECONFIG={{.KUBE_KIND_CONF_DIR}}/kind_kubeconfig" > .envrc
-      - direnv allow
-    vars:
-      KUBE_KIND_CONF_DIR:
-        sh: pwd
-
   init:
     desc: Initialize basic config to run application with Kubernetes
     cmds:
       - task: copy-basic-files
-      - task: install:k8s
-      - task: install:kind
 
   start:
     desc: Prepare and run application in kubernetes
     cmds:
       - task: build:image
-      - task: load-image-kind
 
   build:image:
     desc: Build basic application image
